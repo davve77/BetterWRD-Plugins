@@ -44,7 +44,7 @@ The following requirements must be met for BetterWRD to register your file as a 
 ### Using BetterWRD's own Plugin API
 The API currently has 13 simple but useful functions:
 ```js
-bwrd.injectStyle("style");
+bwrd.injectStyle("CSS");
 bwrd.includeLibrary("URL", isModule); // Loads an external library.
 bwrd.getSettings(); // Returns the plugin's settings in JSON format.
 bwrd.setSettings({"setting": "value", "setting2": "value2"});
