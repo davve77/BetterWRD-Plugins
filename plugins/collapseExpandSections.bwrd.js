@@ -1,7 +1,7 @@
 /*
     @name Collapse/Expand Sections
     @version 1.0.0
-    @description Adds the ability to collapse/expand sections
+    @description Adds the ability to collapse/expand sections.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/collapseExpandSections.bwrd.js
 */
