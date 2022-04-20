@@ -1,7 +1,7 @@
 /*
     @name Bring Back Forum
     @version 1.0.0
-    @description shhh don't tell jon 🤫
+    @description shhh don't tell jon
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/bringBackForum.js
 */
