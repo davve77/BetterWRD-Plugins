@@ -1,10 +1,14 @@
 /*
     @name Posts Count on Profile Page
-    @version 1.0.0
+    @version 1.0.1
     @description Displays a posts & threads count on user profiles.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/postsCountOnProfile.bwrd.js
 */
+
+
+// Plugin changelog
+bwrd.showChangelog('4/21/2022', ['Fixed "Failed to fetch" error caused by forum being "downed"'])
 
 
 if(location.pathname.match(/profile/g) && document.querySelector('#info')){
@@ -52,7 +56,7 @@ if(location.pathname.match(/profile/g) && document.querySelector('#info')){
         posts.forEach(post => {
             if(chosenPost == undefined){
                 let postLink = post.querySelector('[href*="/forum/t/"]')
-                if(postLink && !postLink.href.includes('page')) chosenPost = postLink
+                if(postLink.href && !postLink.href.includes('page')) chosenPost = postLink.href.replace('forum', 'Forum')
             }
         })
 
@@ -61,7 +65,7 @@ if(location.pathname.match(/profile/g) && document.querySelector('#info')){
             return statsDiv.innerHTML = 'No activity'
         }
 
-        let fetchPost = await fetch(chosenPost.href).then(e => e.text())
+        let fetchPost = await fetch(chosenPost).then(e => e.text())
         let postDoc = new DOMParser().parseFromString(fetchPost, 'text/html')
 
         // Cloudflare page
