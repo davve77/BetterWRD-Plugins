@@ -1,11 +1,13 @@
 /*
     @name Thread Stats on Thread Page
-    @version 1.0.0
+    @version 1.0.1
     @description Displays the thread's statistics on its page.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/threadStatsOnThreadPage.bwrd.js
 */
 
+/* Plugin changelog */
+bwrd.showChangelog('4/25/2022', ['Fixed statistics not displaying on threads with very long titles'])
 
 (async ()=> {
 
@@ -45,7 +47,8 @@
     /* Fetch */
     const topicElm       = document.querySelector('#topic').textContent.split(`'`),
           threadTitle    = topicElm[1] ? (topicElm[0].length > topicElm[1].length ? topicElm[0] : topicElm[1]) : topicElm[0],
-          fetchSearch    = await fetch(`/forum/all?order=latestthread&search=${encodeURIComponent(threadTitle)}`).then(e => e.text()),
+          shortTitle     = threadTitle.length > 30 ? threadTitle.substring(0, 30) : threadTitle
+          fetchSearch    = await fetch(`/forum/all?order=latestthread&search=${encodeURIComponent(shortTitle)}`).then(e => e.text()),
           searchResult   = new DOMParser().parseFromString(fetchSearch, 'text/html')
 
     /* Stop if thread is not found */
