@@ -54,5 +54,5 @@
     /* Set stats */
     let viewsCount = searchResult.querySelectorAll('td')[3].textContent
     let repliesCount = searchResult.querySelectorAll('td')[2].textContent
-    threadStats.innerHTML = `${viewsCount} Views • ${repliesCount} Replies`
+    threadStats.innerHTML = `${viewsCount} Views · ${repliesCount} Replies`
 })()
