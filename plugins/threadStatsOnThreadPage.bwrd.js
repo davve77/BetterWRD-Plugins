@@ -1,13 +1,11 @@
 /*
     @name Thread Stats on Thread Page
-    @version 1.0.1
+    @version 1.0.2
     @description Displays the thread's statistics on its page.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/threadStatsOnThreadPage.bwrd.js
 */
 
-/* Plugin changelog */
-bwrd.showChangelog('4/25/2022', ['Fixed statistics not displaying on threads with very long titles'])
 
 (async ()=> {
 
@@ -59,3 +57,7 @@ bwrd.showChangelog('4/25/2022', ['Fixed statistics not displaying on threads wit
     let repliesCount = searchResult.querySelectorAll('td')[2].textContent
     threadStats.innerHTML = `${viewsCount} Views · ${repliesCount} Replies`
 })()
+
+
+/* Plugin changelog */
+bwrd.showChangelog('4/25/2022', ['Fixed statistics not displaying on threads with very long titles'])
