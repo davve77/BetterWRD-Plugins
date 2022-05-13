@@ -1,6 +1,6 @@
 /*
     @name Posts Count on Profile Page
-    @version 1.0.1
+    @version 1.0.2
     @description Displays a posts & threads count on user profiles.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/postsCountOnProfile.bwrd.js
@@ -8,7 +8,7 @@
 
 
 // Plugin changelog
-bwrd.showChangelog('4/21/2022', ['Fixed "Failed to fetch" error caused by forum being "downed"'])
+bwrd.showChangelog('5/13/2022', ['Fixed "Failed to fetch" error caused by rate limits (429)'])
 
 
 if(location.pathname.match(/profile/g) && document.querySelector('#info')){
@@ -32,7 +32,7 @@ if(location.pathname.match(/profile/g) && document.querySelector('#info')){
             100% {transform: rotate(360deg);}
         }`)
 
-        
+
         // Create a stats sidecard
         let sideCards = document.querySelector('#profile_sidecards')
         let cloneSc = document.querySelector('.profile_content').cloneNode(true)
@@ -52,11 +52,11 @@ if(location.pathname.match(/profile/g) && document.querySelector('#info')){
         var userID = document.querySelector('[href*="uid"]').href.split('=')[1]
         var posts = document.querySelectorAll('.activitycard')
         var chosenPost = undefined
-        
+
         posts.forEach(post => {
             if(chosenPost == undefined){
                 let postLink = post.querySelector('[href*="/forum/t/"]')
-                if(postLink.href && !postLink.href.includes('page')) chosenPost = postLink.href.replace('forum', 'Forum')
+                if(postLink && !postLink.href.includes('page')) chosenPost = postLink
             }
         })
 
@@ -65,32 +65,36 @@ if(location.pathname.match(/profile/g) && document.querySelector('#info')){
             return statsDiv.innerHTML = 'No activity'
         }
 
-        let fetchPost = await fetch(chosenPost).then(e => e.text())
-        let postDoc = new DOMParser().parseFromString(fetchPost, 'text/html')
 
-        // Cloudflare page
-        if(postDoc.head.firstElementChild.textContent.startsWith('Verifying')){
-            return statsDiv.innerHTML = 'Failed to fetch stats due to Cloudflare'
-        }
-
-
-        // Find post/thread count
-        let found = false
-        for(let elm of postDoc.querySelectorAll('.thread_replierdata')){
-            let _userID = elm.firstElementChild.href.split('=')[1]
-            if(_userID == userID){
-                let statsDiv = elm.querySelector('.userstats')
-                var postsCount = statsDiv.children[0].textContent.split(' ')[1]
-                var threadCount = statsDiv.children[1].textContent.split(' ')[1]
-                found = true
-                break
+        // Main
+        setTimeout(async () => {
+            let fetchPost = await fetch(chosenPost.href).then(e => e.text())
+            let postDoc = new DOMParser().parseFromString(fetchPost, 'text/html')
+    
+            // Cloudflare page
+            if(postDoc.head.firstElementChild.textContent.startsWith('Verifying')){
+                return statsDiv.innerHTML = 'Failed to fetch stats due to Cloudflare'
             }
-        }
-
-        if(!found) return statsDiv.innerHTML = 'Failed to fetch'
-
-
-        // Update stats sidecard
-        statsDiv.innerHTML = `Posts: ${postsCount} <br> Threads: ${threadCount}`
+    
+    
+            // Find post/thread count
+            let found = false
+            for(let elm of postDoc.querySelectorAll('.thread_replierdata')){
+                let _userID = elm.firstElementChild.href.split('=')[1]
+                if(_userID == userID){
+                    let statsDiv = elm.querySelector('.userstats')
+                    var postsCount = statsDiv.children[0].textContent.split(' ')[1]
+                    var threadCount = statsDiv.children[1].textContent.split(' ')[1]
+                    found = true
+                    break
+                }
+            }
+    
+            if(!found) return statsDiv.innerHTML = 'Failed to fetch'
+    
+    
+            // Update stats sidecard
+            statsDiv.innerHTML = `Posts: ${postsCount} <br> Threads: ${threadCount}`
+        }, 700)
     })()
 }
