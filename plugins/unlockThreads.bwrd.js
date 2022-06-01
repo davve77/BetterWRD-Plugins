@@ -7,7 +7,7 @@
 */
 
 setTimeout(() => { // do NOT do this LOL im just really lazy
-    if(window.location.pathname.match(/forum\/t\/\d+/) && document.querySelectorAll("a[class='theme1 round border1 btn_newrelpy']").length === 0){
+    if(window.location.pathname.match(/forum\/t\/\d+/) && document.querySelectorAll("a[class='theme1 round border1 btn_newrelpy']").length === 0 && !window.location.pathname.includes('newreply')){
         let path = window.location.pathname;
         let replyParent = document.querySelector("div input[id='pageinput'").parentNode;
 
