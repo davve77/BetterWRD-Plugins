@@ -1,6 +1,6 @@
 /*
     @name Unlock Threads
-    @version 1.0.0
+    @version 1.0.1
     @description Be able to post new replies to locked threads.
     @author Seizure Salad
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/unlockThreads.bwrd.js
