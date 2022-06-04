@@ -1,6 +1,6 @@
 /*
     @name Thread Stats on Thread Page
-    @version 1.0.2
+    @version 1.0.3
     @description Displays the thread's statistics on its page.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/threadStatsOnThreadPage.bwrd.js
@@ -24,7 +24,10 @@
     .thread-stats{
         font-size: 14px;
         opacity: .7;
-        padding-top: 10px;
+        height: 41px;
+        margin-bottom: -10px;
+        display: flex;
+        align-items: center;
     }
     .stats-loading{
         height: 20px;
@@ -60,4 +63,4 @@
 
 
 /* Plugin changelog */
-bwrd.showChangelog('4/25/2022', ['Fixed statistics not displaying on threads with very long titles'])
+bwrd.showChangelog('6/4/2022', ['Fixed some stuff'])
