@@ -9,8 +9,8 @@
 
 if(document.querySelector('.replygroup')){
 
-    const originalPoster = getID(document.querySelector('.userdesc'))
     const posts = document.querySelectorAll('.userdesc')
+    const originalPosterID = getID(posts[0])
 
     function getID(elm) { return elm.firstElementChild.href.split('uid=')[1] }
 
@@ -38,7 +38,7 @@ if(document.querySelector('.replygroup')){
     `)
 
     posts.forEach(post => {
-        if(getID(post) != originalPoster || location.href.includes('?page')) return
+        if(getID(post) != originalPosterID || location.href.includes('?page')) return
         
         let opDiv = document.createElement('div')
         opDiv.setAttribute('class', 'opDiv')
