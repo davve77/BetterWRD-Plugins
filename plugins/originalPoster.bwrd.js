@@ -12,9 +12,7 @@ if(document.querySelector('.replygroup')){
     const originalPoster = getID(document.querySelector('.userdesc'))
     const posts = document.querySelectorAll('.userdesc')
 
-    function getID(elm){
-        return elm.firstElementChild.href.split('uid=')[1]
-    }
+    function getID(elm) { return elm.firstElementChild.href.split('uid=')[1] }
 
     bwrd.injectStyle(`
     .opName{
@@ -23,10 +21,11 @@ if(document.querySelector('.replygroup')){
         align-items: center;
         gap: 7px;
     }
-    .opDiv{
+    .opDiv {
         font-size: 14px;
-        background: #0252a5;
-        padding: 2px 4px;
+        background: #8dc5ff;
+        color: black;
+        padding: 0 5px;
         border-radius: 5px;
         display: flex;
         align-items: center;
@@ -34,18 +33,17 @@ if(document.querySelector('.replygroup')){
         gap: 2px;
     }
     .opDiv p{
-        font-weight: 400;
+        font-weight: 600;
     }
     `)
 
     posts.forEach(post => {
-        if(getID(post) == originalPoster && !location.href.includes('?page')){
-
-            let opDiv = document.createElement('div')
-            opDiv.setAttribute('class', 'opDiv')
-            opDiv.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 24 24" width="16" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"></path></svg> <p>OP</p>`
-            post.firstElementChild.appendChild(opDiv)
-            post.firstElementChild.classList.add('opName')
-        }
+        if(!getID(post) || location.href.includes('?page')) return
+        
+        let opDiv = document.createElement('div')
+        opDiv.setAttribute('class', 'opDiv')
+        opDiv.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 24 24" width="16" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"></path></svg> <p>OP</p>`
+        post.firstElementChild.appendChild(opDiv)
+        post.firstElementChild.classList.add('opName')
     })
 }
