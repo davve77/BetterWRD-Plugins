@@ -38,7 +38,7 @@ if(document.querySelector('.replygroup')){
     `)
 
     posts.forEach(post => {
-        if(!getID(post) || location.href.includes('?page')) return
+        if(!getID(post) != originalPoster || location.href.includes('?page')) return
         
         let opDiv = document.createElement('div')
         opDiv.setAttribute('class', 'opDiv')
