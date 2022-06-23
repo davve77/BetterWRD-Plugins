@@ -24,6 +24,7 @@ usersthatrblocked.forEach(cusr =>{
             let elm = cg.parentElement.parentElement
 
             elm.style.filter = "blur(11px)"
+            elm.style.pointerEvents = 'none'
         }
         
     })
