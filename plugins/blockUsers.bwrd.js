@@ -3,7 +3,7 @@
     @version 1.0.0
     @description Allows you to block users (hides their replies).
     @author lxnny
-    @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/collapseExpandSections.bwrd.js
+    @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/blockUsers.bwrd.js
     BIG CREDITS TO DAVID FOR HELPING ME <3
 */
 
