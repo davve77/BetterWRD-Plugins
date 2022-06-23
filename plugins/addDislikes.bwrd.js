@@ -1,6 +1,6 @@
 /*
     @name Add Dislikes
-    @version 1.0.0
+    @version 1.0.1
     @description Adds a dislike button to replies and posts.
     @author Seizure Salad
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/addDislikes.bwrd.js
@@ -8,7 +8,7 @@
 
 //i dedicate this plugin to evosploit and ishanjit
 //backend is terrible lol
-setTimeout(async() => { //some day i will not do this but not today
+window.addEventListener('load', async() => {
     if(window.location.pathname.match(/forum\/t\/\d+/) && !window.location.pathname.includes('newreply')) {
         function getTrid(element) {
             return parseInt(element.getAttribute('data-trid'));
@@ -21,7 +21,7 @@ setTimeout(async() => { //some day i will not do this but not today
                     'Content-Type': 'application/json',
                 }
             })
-            .then(res => res.json());
+            .then(res => res.json()).catch(_ => _) || false;
         }
 
         let user = await bwrd.getUser();
@@ -32,7 +32,6 @@ setTimeout(async() => { //some day i will not do this but not today
             display: inline-flex;
             cursor: pointer;
         }
-
         .btnDislikeReply {
             opacity: .5
         }
@@ -49,12 +48,13 @@ setTimeout(async() => { //some day i will not do this but not today
     
         .btnDislikeReply.disliked {
             opacity: 1!important
-        }
-        `);
-
-        let posts = document.querySelectorAll('.themebtn.btn.theme1.round.border1.btnLikeReply');
+        }`);
 
         async function setDislike(trid, uid, event) {
+            if(isNaN(event.target.textContent)){ // if dislike is '?'
+                return bwrd.alert('Add Dislikes', 'Failed to get dislikes')
+            }
+
             if(!event.target.classList.contains('disliked') && !parseInt(event.target.textContent) > 0) { 
                 event.target.classList.add('disliked'); 
                 event.target.textContent = parseInt(event.target.textContent) + 1;
@@ -88,16 +88,21 @@ setTimeout(async() => { //some day i will not do this but not today
             })
         }
 
+        let posts = document.querySelectorAll('.btnLikeReply');
+
         posts.forEach(async post => {
-            let dislike = document.createElement('p');
-            dislike.className = 'themebtn btn theme1 round border1 btnDislikeReply verticalCenter threadbtn';
-            dislike.style = 'gap: 2px; padding: 5px 10px; filter: brightness(1.25); cursor: pointer; display: flex;';
+            let dislike = post.cloneNode(true);
+            dislike.classList.add('btnDislikeReply');
+            dislike.classList.remove('btnLikeReply', 'liked');
+            dislike.style.removeProperty('background');
+
             dislike.addEventListener('click', async(event) => {
                 await setDislike(getTrid(post), uid, event);
             });
+
             let dislikeCount = await getDislikes(getTrid(post));
-            dislike.innerHTML = dislikeCount.dislikes;
+            dislike.innerHTML = (dislikeCount.success) ? dislikeCount.dislikes : '?';
             post.parentNode.insertBefore(dislike, post.nextSibling);
         });
     }
-}, 100);
+})
