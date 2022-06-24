@@ -41,6 +41,12 @@ The following requirements must be met for BetterWRD to register your file as a 
 
 
 &nbsp;
+### Developing Plugins
+I recommend using [github.com/davve77/bwrd-plugin-dev-server](https://github.com/davve77/bwrd-plugin-dev-server) for developing plugins.  
+It makes the process much faster and easier.
+
+
+&nbsp;
 ### Using BetterWRD's own Plugin API
 The API currently has 13 simple but useful functions:
 ```js
