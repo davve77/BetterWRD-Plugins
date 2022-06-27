@@ -1,13 +1,13 @@
 /*
     @name Block Users
-    @version 1.0.1
+    @version 1.0.2
     @description Allows you to block users (hides their replies).
     @author lxnny
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/blockUsers.bwrd.js
     BIG CREDITS TO DAVID FOR HELPING ME <3
 */
 
-bwrd.showChangelog('6/23/2022', ['Fixed bugs'])
+bwrd.showChangelog('6/27/2022', ['Fixed plugin erroring on a few pages']);
 
 let usersthatrblocked = [];
 if(bwrd.getSettings().usersthatrblocked != usersthatrblocked && bwrd.getSettings().usersthatrblocked != undefined){
@@ -78,8 +78,9 @@ btns.forEach(mentionbtn  => {
     
 })
 
-const changeLog = document.querySelectorAll('[title="Change Log"]')[0].parentElement
+let changeLog = document.querySelectorAll('[title="Change Log"]')[0]
 if(changeLog){
+    changeLog = changeLog.parentNode
     let unblockAll = changeLog.cloneNode(true)
     unblockAll.removeAttribute('href')
     unblockAll.setAttribute('onclick', `unblockall()`)
