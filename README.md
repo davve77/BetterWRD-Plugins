@@ -65,7 +65,6 @@ bwrd.stripHTML("string"); // Removes HTML tags from string.
 bwrd.validateJSON("string"); // Checks if string is a valid JSON.
 bwrd.getUser().then(info => console.log(info)); // Prints the user's name, avatar, reputation, join date etc.
 ```
-Yes, this is more of a library than an API.
 
 
 &nbsp;
