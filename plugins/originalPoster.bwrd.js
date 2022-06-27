@@ -1,18 +1,25 @@
 /*
     @name Original Poster on Threads
-    @version 1.0.0
-    @description Show a blue OP badge next to the thread author name.
+    @version 1.0.1
+    @description Show an OP badge next to the thread author name.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/originalPoster.bwrd.js
 */
 
+bwrd.showChangelog('6/27/2022', [
+    'The plugin now works on threads with multiple pages',
+    'Changed the OP badge colors',
+    'Fixed bugs'
+])
 
 if(document.querySelector('.replygroup')){
 
-    const posts = document.querySelectorAll('.userdesc')
-    const originalPosterID = getID(posts[0])
+    const getAttr           = (url, search) => new URLSearchParams((typeof url == 'object' ? url.search : new URL(url).search)).get(search)
+    const getID             = elm => getAttr(elm.firstElementChild.href, 'uid')
 
-    function getID(elm) { return elm.firstElementChild.href.split('uid=')[1] }
+    const posts             = document.querySelectorAll('.userdesc')
+    const originalPosterID  = getAttr(location, 'op') || getID(posts[0])
+    const threadNav         = document.querySelectorAll('a[href*="?page"]')
 
     bwrd.injectStyle(`
     .opName{
@@ -34,11 +41,10 @@ if(document.querySelector('.replygroup')){
     }
     .opDiv p{
         font-weight: 300;
-    }
-    `)
+    }`)
 
     posts.forEach(post => {
-        if(getID(post) != originalPosterID || location.href.includes('?page')) return
+        if(getID(post) != originalPosterID) return
         
         let opDiv = document.createElement('div')
         opDiv.setAttribute('class', 'opDiv')
@@ -46,4 +52,6 @@ if(document.querySelector('.replygroup')){
         post.firstElementChild.appendChild(opDiv)
         post.firstElementChild.classList.add('opName')
     })
+
+    threadNav.forEach(btn => btn.href = btn.href + '&op=' + originalPosterID)
 }
