@@ -48,7 +48,7 @@ It makes the process much faster and easier.
 
 &nbsp;
 ### Using BetterWRD's own Plugin API
-The API currently has 13 simple but useful functions:
+The API currently has 14 simple but useful functions:
 ```js
 bwrd.injectStyle("CSS");
 bwrd.includeLibrary("URL", isModule); // Loads an external library.
