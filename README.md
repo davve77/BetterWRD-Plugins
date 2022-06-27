@@ -96,8 +96,8 @@ However, safety is not guaranteed for plugins outside the repository.
 
 
 &nbsp;
-### Why was my plugin rejected?
-Your plugin will get rejected if it breaks any of the following rules:
+### Plugin Policies
+Your plugin will get rejected if it breaks any of the following guidelines:
 - No use of eval or Function constructor
 - Wrong usage of includeLibrary() function
 - No obfuscated scripts
