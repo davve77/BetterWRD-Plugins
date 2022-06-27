@@ -99,9 +99,8 @@ However, safety is not guaranteed for plugins outside the repository.
 &nbsp;
 ### Plugin Policies
 Your plugin will get rejected if it breaks any of the following guidelines:
-- No use of eval or Function constructor
-- Wrong usage of includeLibrary() function
+- No use of eval() or Function constructor
+- Only open source libraries when using includeLibrary() function are allowed
 - No obfuscated scripts
 - No malicious code
-- No logging of any data
 - No plugins that involve the user's account, such as account switchers.
