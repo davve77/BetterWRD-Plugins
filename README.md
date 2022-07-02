@@ -55,7 +55,7 @@ bwrd.includeLibrary("URL", isModule); // Loads an external library.
 bwrd.getSettings(); // Returns the plugin's settings in JSON format.
 bwrd.setSettings({"setting": "value", "setting2": "value2"});
 bwrd.alert("title", "content"); // Creates an alert box modal.
-bwrd.confirm("content", function(choice)) // Callback parameter (choice) is a boolean based on the user's choice.
+bwrd.confirm("content", function(choice)); // Callback parameter (choice) is a boolean based on the user's choice.
 bwrd.getVersion(); // Returns the currently installed BetterWRD version number.
 bwrd.getPlugin(); // Returns the plugin's name, version and source as a JSON object.
 bwrd.copyToClipboard("string");
