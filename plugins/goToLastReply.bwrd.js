@@ -1,37 +1,45 @@
 /*
     @name Go to Latest Reply
-    @version 1.0.0
+    @version 1.0.1
     @description Adds a button that automatically skips to last reply.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/goToLastReply.bwrd.js
 */
 
+bwrd.showChangelog('7/15/2022', ['Changed button design & icon', 'Button will only show if the thread has replies'])
 
-if(document.querySelector('.replygroup')){
+(() => {
+    // Return if not on thread view
+    if(!document.querySelector('.replygroup')) return
 
-    const btnContent    = `<a id="last-post" title="Go to latest post" onclick="latestPost()" class="theme1 round border1 btn_newrelpy"> <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" style="transform: scale(.55);" height="48" width="48"><path d="M24 44 10 30 12.1 27.9 22.5 38.3V4H25.5V38.3L35.9 27.9L38 30Z"></path></svg></a>`
+    // If thread has no replies, don't create the button
+    if(!/page/.test(location.href) && document.querySelectorAll('.replygroup').length <= 1) return
+    
+    
+    // Constants
+    const btnContent    = `<a class="btn theme2 border1 round" id="last-post" title="Go to latest post"> <svg xmlns="http://www.w3.org/2000/svg" height="21" viewBox="0 0 24 24" width="21" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none" opacity=".87"></path><path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6-1.41 1.41zM16 6h2v12h-2V6z"></path></svg> </a>`
     const titleDiv      = document.querySelector('#topic').parentElement.parentElement
     const lastPostBtn   = util.addElement('button', titleDiv, btnContent)
     
     
     // CSS
     bwrd.injectStyle(`
-        #last-post{
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 50px;
-            height: 50px;
-            padding: 0!important;
-            background: rgb(255 255 255 / 2%)!important;
-            cursor: pointer;
-            transform: scale(.75);
-        }
-    `)
+    #last-post {
+        position: absolute;
+        top: -1px;
+        right: -53px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }`)
     titleDiv.style['position'] = 'relative'
     
     
     // Main
+    document.querySelector('#last-post').addEventListener('click', latestPost)
+    
     function latestPost(){
         let isOnLatestPage
         let lastPage = location.href
@@ -42,7 +50,7 @@ if(document.querySelector('.replygroup')){
         isOnLatestPage = lastPage == location.href
     
         if(isOnLatestPage)  scrollToLatestPost()
-        else                location.assign(lastPage + '?latest')
+        else                location.assign(lastPage + '&latest')
     }
     
     function scrollToLatestPost(){
@@ -51,5 +59,5 @@ if(document.querySelector('.replygroup')){
         lastPost.scrollIntoView({block: 'center'})
     }
     
-    if((/\?latest/).test(location.href)) scrollToLatestPost()
-}
+    if((/\&latest/).test(location.href)) scrollToLatestPost()
+})()
