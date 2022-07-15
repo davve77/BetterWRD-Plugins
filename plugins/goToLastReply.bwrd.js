@@ -1,12 +1,10 @@
 /*
     @name Go to Latest Reply
-    @version 1.0.1
+    @version 1.0.2
     @description Adds a button that automatically skips to last reply.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/goToLastReply.bwrd.js
 */
-
-bwrd.showChangelog('7/15/2022', ['Changed button design & icon', 'Button will only show if the thread has replies'])
 
 (() => {
     // Return if not on thread view
@@ -61,3 +59,5 @@ bwrd.showChangelog('7/15/2022', ['Changed button design & icon', 'Button will on
     
     if((/\&latest/).test(location.href)) scrollToLatestPost()
 })()
+
+bwrd.showChangelog('7/15/2022', ['Changed button design & icon', 'Button will only show if the thread has replies'])
