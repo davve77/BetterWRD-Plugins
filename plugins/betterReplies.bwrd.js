@@ -3,7 +3,7 @@
     @version 1.0.0
     @description See a replies' content in the new reply editor.
     @author Seizure Salad
-    @source https://github.com/davve77/BetterWRD-Plugins/blob/main/plugins/betterReplies.bwrd.js
+    @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/betterReplies.bwrd.js
 */
 
 // This is quite possibly the sloppiest plugin i've ever written
