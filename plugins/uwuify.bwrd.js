@@ -3,7 +3,7 @@
     @version 1.0.0
     @description UwU OwO your posts because why not
     @author Seizure Salad
-    @source https://github.com/davve77/BetterWRD-Plugins/blob/main/plugins/uwuify.bwrd.js
+    @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/uwuify.bwrd.js
 */
 
 window.addEventListener('load', async() => {
