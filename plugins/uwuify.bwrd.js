@@ -1,13 +1,13 @@
 /*
     @name UwUify
-    @version 1.0.0
+    @version 1.0.1
     @description UwU OwO your posts because why not
     @author Seizure Salad
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/uwuify.bwrd.js
 */
 
 window.addEventListener('load', async() => {
-    if(window.location.pathname.match(/forum\/t\/\d+\/newreply/)) {
+    if(window.location.pathname.match(/forum\/t\/\d+\/newreply/) || window.location.pathname === '/forum/roblox/newthread') {
         let button = document.createElement('a');
         button.classList.add('theme2');
         button.classList.add('button');
