@@ -1,6 +1,6 @@
 /*
     @name Go to Latest Reply
-    @version 1.0.2
+    @version 1.0.3
     @description Adds a button that automatically skips to last reply.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/goToLastReply.bwrd.js
@@ -52,7 +52,7 @@
     }
     
     function scrollToLatestPost(){
-        let allPosts = document.querySelectorAll('.replygroup')
+        let allPosts = document.querySelectorAll('.replygroup:not(.quick-reply)')
         let lastPost = allPosts[allPosts.length - 1]
         lastPost.scrollIntoView({block: 'center'})
     }
@@ -60,4 +60,4 @@
     if((/\&latest/).test(location.href)) scrollToLatestPost()
 })()
 
-bwrd.showChangelog('7/15/2022', ['Changed button design & icon', 'Button will only show if the thread has replies'])
+bwrd.showChangelog('11/23/2022', ['Should no longer scroll to Quick Reply instead of the last reply'])
