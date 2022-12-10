@@ -1,15 +1,13 @@
 /*
     @name Posts Count on Profile Page
-    @version 1.0.2
+    @version 1.0.3
     @description Displays a posts & threads count on user profiles.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/postsCountOnProfile.bwrd.js
 */
 
-
 // Plugin changelog
-bwrd.showChangelog('5/13/2022', ['Fixed "Failed to fetch" error caused by rate limits (429)'])
-
+bwrd.showChangelog('12/10/2022', ['Fixed various bugs'])
 
 if(location.pathname.match(/profile/g) && document.querySelector('#info')){
     (async ()=>{
@@ -68,14 +66,13 @@ if(location.pathname.match(/profile/g) && document.querySelector('#info')){
 
         // Main
         setTimeout(async () => {
-            let fetchPost = await fetch(chosenPost.href).then(e => e.text())
+            let fetchPost = await fetch(chosenPost.href, {credentials: 'omit'}).then(e => e.text())
             let postDoc = new DOMParser().parseFromString(fetchPost, 'text/html')
     
             // Cloudflare page
             if(postDoc.head.firstElementChild.textContent.startsWith('Verifying')){
                 return statsDiv.innerHTML = 'Failed to fetch stats due to Cloudflare'
             }
-    
     
             // Find post/thread count
             let found = false
@@ -92,9 +89,9 @@ if(location.pathname.match(/profile/g) && document.querySelector('#info')){
     
             if(!found) return statsDiv.innerHTML = 'Failed to fetch'
     
-    
             // Update stats sidecard
             statsDiv.innerHTML = `Posts: ${postsCount} <br> Threads: ${threadCount}`
+            
         }, 700)
-    })()
+    })();
 }
