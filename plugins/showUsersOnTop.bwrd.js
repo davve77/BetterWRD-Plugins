@@ -1,21 +1,22 @@
 /*
     @name Show Users on Top
-    @version 1.0.0
-    @description Show users on top of thread and main pages.
+    @version 2.0.0
+    @description Show users on top of thread pages.
     @author RealNickk
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/showUsersOnTop.bwrd.js
 */
 
-setTimeout(() => { // do NOT do this LOL im just really lazy
-    let match = window.location.pathname.match(/^\/forum(.*)/);
-    if (match) {
-        let path = match[1];
-        if (path.substring(0, 1) == "/") path = path.substring(1);
-        if (path == "") document.querySelector(".buttons").after(document.querySelector("main>.onlineList"));
-        if (path.match(/t\/\d+/)) {
-            let first = document.querySelector("main>div:first-child");
-            first.after(document.querySelector("main>div:last-child"));
-            first.after(document.createElement("br"));
-        }
-    }
-}, 100);
+var uri = new URL(location.href);
+if (uri.pathname.match(/\/?forum\/t\/\d+\/?/)) {
+    // Inject JQuery for pages that don't have it in the header.
+    if (typeof(window.jQuery) == "undefined")
+        bwrd.includeLibrary("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js");
+
+    // Wait for dom to load.
+    jQuery(() => {
+        const first = $("main > div:first-child");
+        first.after($("main > div:last-child"));
+        $(document.body).append("<br class='end-main'/>");
+        first.after($("br.end-main"));
+    });
+}
