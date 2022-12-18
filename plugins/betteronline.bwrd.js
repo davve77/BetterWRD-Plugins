@@ -9,7 +9,8 @@
 var uri = new URL(location.href);
 if (uri.pathname.match(/\/?forum\/t\/\d+\/?/)) {
     // Inject JQuery for pages that don't have it in the header.
-    bwrd.includeLibrary("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js");
+    if (typeof(window.jQuery) == "undefined")
+        bwrd.includeLibrary("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js");
 
     // Inject an online status style.
     bwrd.injectStyle(`.thread-pfp-online::after {
