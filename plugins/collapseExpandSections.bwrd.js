@@ -1,95 +1,125 @@
 /*
     @name Collapse/Expand Sections
-    @version 1.0.0
+    @version 1.1.0
     @description Adds the ability to collapse/expand sections.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/collapseExpandSections.bwrd.js
 */
 
-
-if(document.querySelector('.categoryGroup')){
-
-    if(!bwrd.getSettings()['sectionStates']) {bwrd.setSettings({'sectionStates': '{}'})}
-
-    // CSS
-    bwrd.injectStyle(`
-    .sectionTitle{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .gridWrapper{
-        transition: .085s ease height;
-    }
-    .sectionArrow{
-        transition: .085s ease opacity, .1s ease transform;
-    }
-    .arrowCollapsed{
-        transform: rotate(-90deg);
-    }
-    .sectionArrow:hover{
-        opacity: .5;
-    }
-    .collapsed{
-        height: 0!important;
-    }`)
-
-
-    // Create arrows
-    document.querySelectorAll('.categoryGroup').forEach(cg => {
-
-        let arrowElm = document.createElement('div')
-        let postsElm = cg.lastElementChild
-        let elm = cg.firstElementChild
+class collapseSections{
+    constructor() { this.arrowHTML = `<svg class="sectionArrow" xmlns="http://www.w3.org/2000/svg" height="24" width="24" cursor="pointer" viewBox="0 0 24 24" fill="currentColor"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"></path><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"></path></svg>` }
+    
+    load(){
+        if(!document.querySelector('.categoryGroup')) return
+        if(!bwrd.getSettings()['sectionStates']) bwrd.setSettings({'sectionStates': '{}'})
         
-        // Set height to post wrappers so transition works
-        postsElm.style.height = getComputedStyle(postsElm).height
+        this.injectCSS()
+        
+        // Main
+        document.querySelectorAll('.categoryGroup').forEach(elm => {
+            const arrowElm = document.createElement('div')
+            const postsElm = elm.lastElementChild
+            const titleElm = elm.firstElementChild
 
-        // Create arrow
-        elm.classList.add('sectionTitle')
-        elm.appendChild(arrowElm)
-        arrowElm.outerHTML = `<svg onclick="expandCollapseSection(this.parentElement.parentElement, false)" class="sectionArrow" xmlns="http://www.w3.org/2000/svg" height="24" width="24" cursor="pointer" viewBox="0 0 24 24" fill="currentColor"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"></path><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"></path></svg>`
+            // Set absolute height to wrappers so that height animations work
+            postsElm.style.height = getComputedStyle(postsElm).height
 
-        expandCollapseSection(cg, true)
-    })
+            // Create arrow
+            titleElm.classList.add('sectionTitle')
+            titleElm.appendChild(arrowElm)
+            arrowElm.outerHTML = this.arrowHTML
 
-    function expandCollapseSection(elm, isOnLoad){
+            // Add click event
+            titleElm.querySelector('.sectionArrow').addEventListener('click', this.changeState.bind(null, elm, false), false)
 
-        let cgState = ()=> {return JSON.parse(bwrd.getSettings()['sectionStates'])}
-        let currentSection = elm.id
-        let arrowElm = elm.firstElementChild.firstElementChild
-        let postsElm = elm.lastElementChild
-
+            // Load states
+            this.changeState(elm, true)
+        })
+    }
+    
+    changeState(elm, isOnLoad){
+        const _this = (isOnLoad) ? this : new collapseSections()
+        const currentSection = elm.id
+        const arrowElm = elm.firstElementChild.firstElementChild
+        const postsElm = elm.lastElementChild
 
         if(!isOnLoad){
-
             // Section is expanded, collapse it
-            if(cgState()[currentSection] == 'expanded' || !cgState()[currentSection]){
-                postsElm.classList.add('collapsed')
-                arrowElm.classList.add('arrowCollapsed')
-                setState('collapsed')
+            if(_this.getState(currentSection) == 'expanded' || !_this.getState(currentSection)){
+                _this.applyState('collapse', postsElm, arrowElm, false)
+                _this.setState('collapsed', currentSection)
             }
     
             // Section is collapsed, expand it
-            else if(cgState()[currentSection] == 'collapsed'){
-                postsElm.classList.remove('collapsed')
-                arrowElm.classList.remove('arrowCollapsed')
-                setState('expanded')
+            else if(_this.getState(currentSection) == 'collapsed'){
+                _this.applyState('expand', postsElm, arrowElm, false)
+                _this.setState('expanded', currentSection)
             }
         }
 
-
         // Save state for sections
-        else if(isOnLoad && cgState()[currentSection] == 'collapsed'){
-            postsElm.classList.add('collapsed')
-            arrowElm.classList.add('arrowCollapsed')
-        }
-
-
-        function setState(state){
-            let current = JSON.parse(bwrd.getSettings()['sectionStates'])
-            current[currentSection] = state
-            bwrd.setSettings({'sectionStates': JSON.stringify(current)})
+        else if(isOnLoad && _this.getState(currentSection) == 'collapsed'){
+            _this.applyState('collapse', postsElm, arrowElm, true)
         }
     }
+    
+    setState(state, section){
+        const current = JSON.parse(bwrd.getSettings()['sectionStates'])
+        current[section] = state
+        return bwrd.setSettings({'sectionStates': JSON.stringify(current)})
+    }
+    
+    getState(section){
+        return JSON.parse(bwrd.getSettings()['sectionStates'])[section]
+    }
+    
+    applyState(state, elm1, elm2, disableAnim){
+        const func = (state == 'collapse') ? 'add' : 'remove'
+        
+        if(disableAnim){
+            elm1.classList[func]('collapsed')
+            elm2.classList[func]('arrowCollapsed')
+        }
+        else if(state == 'collapse'){
+            elm1.classList[func]('collapsed-half')
+            elm2.classList[func]('arrowCollapsed')
+            setTimeout(()=> { elm1.classList[func]('collapsed') }, 130)
+        }
+        else{
+            elm1.classList[func]('collapsed')
+            elm2.classList[func]('arrowCollapsed')
+            setTimeout(()=> { elm1.classList[func]('collapsed-half') }, 130)
+        }
+    }
+
+    injectCSS(){
+        bwrd.injectStyle(`
+        .sectionTitle{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .gridWrapper{
+            transition: 167ms cubic-bezier(0,0,0,1);
+        }
+        .sectionArrow{
+            transition: .085s cubic-bezier(0,0,0,1) opacity, .1s cubic-bezier(0,0,0,1) transform;
+        }
+        .arrowCollapsed{
+            transform: rotate(-90deg);
+        }
+        .sectionArrow:hover{
+            opacity: .5;
+        }
+        .collapsed-half{
+            transform: scale(.98)!important;
+            opacity: 0!important
+        }
+        .collapsed{
+            height: 0!important;
+        }`)
+    }
 }
+
+new collapseSections().load()
+bwrd.showChangelog('12/23/2022', ['Restructured & optimized code', 'Remade animations'])
