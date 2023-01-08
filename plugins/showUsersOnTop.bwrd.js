@@ -1,6 +1,6 @@
 /*
     @name Show Users on Top
-    @version 2.0.0
+    @version 2.0.1
     @description Show users on top of thread pages.
     @author RealNickk
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/showUsersOnTop.bwrd.js
