@@ -1,16 +1,13 @@
 /*
     @name Posts Count on Profile Page
-    @version 1.0.3
+    @version 1.0.4
     @description Displays a posts & threads count on user profiles.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/postsCountOnProfile.bwrd.js
 */
 
-// Plugin changelog
-bwrd.showChangelog('12/10/2022', ['Fixed various bugs'])
-
 if(location.pathname.match(/profile/g) && document.querySelector('#info')){
-    (async ()=>{
+    (async () => {
 
         // CSS
         bwrd.injectStyle(`
@@ -53,7 +50,7 @@ if(location.pathname.match(/profile/g) && document.querySelector('#info')){
 
         posts.forEach(post => {
             if(chosenPost == undefined){
-                let postLink = post.querySelector('[href*="/forum/t/"]')
+                const postLink = post.querySelector('[href*="/t/"]')
                 if(postLink && !postLink.href.includes('page')) chosenPost = postLink
             }
         })
