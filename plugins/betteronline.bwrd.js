@@ -9,7 +9,33 @@
 (async() => {
     // -- Peanut loader -- //
     const __peanutDev = false;
-    if(window.peanutReady)await window.peanutReady;else if(typeof window.peanut==="undefined")await new Promise(r=>{window.peanutResolve=r;bwrd.includeLibrary(__peanutDev?"http://localhost:8080/assets/peanut.js":"https://realnickk.github.io/BetterWRD-Stuff/assets/peanut-min.js")});
+    if (window.peanutReady) {
+        await window.peanutReady;
+    }
+    else if (typeof(window.peanut) === "undefined") {
+        if (__peanutDev) {
+            await new Promise(r => { window.peanutResolve = r; bwrd.includeLibrary("http://localhost:8080/assets/peanut.js"); });
+        }
+        else {
+            await new Promise(r => {
+                let iterations = 0;
+                const interval = setInterval(() => {
+                    if (typeof(window.peanutReady) !== "undefined") {
+                        clearInterval(interval);
+                        window.peanutReady.then(() => r());
+                    }
+                    else if (++iterations == 1000 && typeof(window.peanutNotFound) === "undefined") { // 100*10ms = 1 second timeout (i hate this but it works)
+                        clearInterval(interval);
+                        window.peanutNotFound = true;
+                        bwrd.alert("Peanut Loader", "One of your plugins couldn't load the peanut library. Ensure that the peanut extension from the BetterWRD extension library is installed and enabled.");
+                    }
+                }, 10);
+            });
+        }
+    }
+
+    if (window.peanutNotFound)
+        return; // Abort extension logic.
     // -- Peanut loader -- //
 
     // Not a page we care about.
