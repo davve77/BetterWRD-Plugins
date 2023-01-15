@@ -1,7 +1,7 @@
 /*
     @name Better Online
     @version 1.0.0
-    @description Removes that small, green dot and adds a green border around the profile picture of online users.
+    @description Removes that small, green dot and adds a green border around the profile picture of online users. Requires peanut API to work properly.
     @author RealNickk
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/betteronline.bwrd.js
 */
