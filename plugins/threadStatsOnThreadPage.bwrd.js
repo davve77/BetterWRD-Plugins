@@ -1,14 +1,13 @@
 /*
     @name Thread Stats on Thread Page
-    @version 1.0.3
+    @version 1.0.4
     @description Displays the thread's statistics on its page.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/threadStatsOnThreadPage.bwrd.js
 */
 
-
-(async ()=> {
-
+(async () => {
+    
     /* Only run if on thread page */
     if(!document.querySelector('.btnLikeReply')) return
 
@@ -49,7 +48,7 @@
     const topicElm       = document.querySelector('#topic').textContent.split(`'`),
           threadTitle    = topicElm[1] ? (topicElm[0].length > topicElm[1].length ? topicElm[0] : topicElm[1]) : topicElm[0],
           shortTitle     = threadTitle.length > 30 ? threadTitle.substring(0, 30) : threadTitle
-          fetchSearch    = await fetch(`/forum/all?order=latestthread&search=${encodeURIComponent(shortTitle)}`).then(e => e.text()),
+          fetchSearch    = await fetch(`/c/all?order=latestthread&search=${encodeURIComponent(shortTitle)}`).then(e => e.text()),
           searchResult   = new DOMParser().parseFromString(fetchSearch, 'text/html')
 
     /* Stop if thread is not found */
@@ -61,6 +60,5 @@
     threadStats.innerHTML = `${viewsCount} Views · ${repliesCount} Replies`
 })()
 
-
 /* Plugin changelog */
-bwrd.showChangelog('6/4/2022', ['Fixed some stuff'])
+bwrd.showChangelog('01/15/2023', ['Fixed bugs after subdomain update'])
