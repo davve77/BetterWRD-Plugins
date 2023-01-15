@@ -1,6 +1,6 @@
 /*
     @name Thread Stats on Thread Page
-    @version 1.0.4
+    @version 1.0.5
     @description Displays the thread's statistics on its page.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/threadStatsOnThreadPage.bwrd.js
@@ -55,8 +55,8 @@
     if(!searchResult || !searchResult.querySelector('.thread-title')) return threadStats.remove()
 
     /* Set stats */
-    let viewsCount = searchResult.querySelectorAll('td')[3].textContent
-    let repliesCount = searchResult.querySelectorAll('td')[2].textContent
+    let viewsCount = searchResult.querySelectorAll('td')[2].textContent
+    let repliesCount = searchResult.querySelectorAll('td')[1].textContent
     threadStats.innerHTML = `${viewsCount} Views · ${repliesCount} Replies`
 })()
 
