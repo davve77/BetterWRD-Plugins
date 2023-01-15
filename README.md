@@ -98,9 +98,11 @@ However, safety is not guaranteed for plugins outside the repository.
 &nbsp;
 ### Plugin Policies
 Your plugin will get rejected if it breaks any of the following guidelines:
-- No use of eval() or Function constructor
-- Only open source libraries when using includeLibrary() function are allowed
-- No editing of BetterWRD globals
-- No obfuscated scripts
-- No malicious code
-- No plugins that involve the user's account, such as account switchers
+- Must not use eval() or Function constructor
+- Must not use closed source libraries
+- Must not access sensitive data (user tokens, passwords, etc.)
+- Must not edit BetterWRD globals
+- Must not collect user data without opt-in consent
+- Must not attempt to modify BetterWRD functionality
+    - Instead, you may open pull requests in [github.com/davve77/BetterWRD](https://github.com/davve77/BetterWRD)
+- Must not be obfuscated or minified
