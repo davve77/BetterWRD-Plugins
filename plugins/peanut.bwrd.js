@@ -24,7 +24,7 @@
                         clearInterval(interval);
                         window.peanutReady.then(() => r());
                     }
-                    else if (++iterations == 1000 && typeof(window.peanutNotFound) === "undefined") { // 100*10ms = 1 second timeout (i hate this but it works)
+                    else if (++iterations == 100 && typeof(window.peanutNotFound) === "undefined") { // 100*10ms = 1 second timeout (i hate this but it works)
                         clearInterval(interval);
                         window.peanutNotFound = true;
                         bwrd.alert("Peanut Loader", "One of your plugins couldn't load the peanut library. Ensure that the peanut extension from the BetterWRD extension library is installed and enabled.");
