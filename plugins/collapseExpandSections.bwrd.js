@@ -1,21 +1,25 @@
 /*
     @name Collapse/Expand Sections
-    @version 1.1.0
+    @version 1.2.0
     @description Adds the ability to collapse/expand sections.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/collapseExpandSections.bwrd.js
 */
 
-class collapseSections{
-    constructor() { this.arrowHTML = `<svg class="sectionArrow" xmlns="http://www.w3.org/2000/svg" height="24" width="24" cursor="pointer" viewBox="0 0 24 24" fill="currentColor"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"></path><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"></path></svg>` }
+class collapseSections {
+    static arrowHTML = `<svg class="sectionArrow" xmlns="http://www.w3.org/2000/svg" height="24" width="24" cursor="pointer" viewBox="0 0 24 24" fill="currentColor"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"></path><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"></path></svg>`
     
     load(){
         if(!document.querySelector('.categoryGroup')) return
         if(!bwrd.getSettings()['sectionStates']) bwrd.setSettings({'sectionStates': '{}'})
         
         this.injectCSS()
-        
-        // Main
+
+        this.main()
+        this.addMutationObserver()
+    }
+
+    main(){
         document.querySelectorAll('.categoryGroup').forEach(elm => {
             const arrowElm = document.createElement('div')
             const postsElm = elm.lastElementChild
@@ -27,7 +31,7 @@ class collapseSections{
             // Create arrow
             titleElm.classList.add('sectionTitle')
             titleElm.appendChild(arrowElm)
-            arrowElm.outerHTML = this.arrowHTML
+            arrowElm.outerHTML = this.constructor.arrowHTML
 
             // Add click event
             titleElm.querySelector('.sectionArrow').addEventListener('click', this.changeState.bind(null, elm, false), false)
@@ -35,6 +39,19 @@ class collapseSections{
             // Load states
             this.changeState(elm, true)
         })
+    }
+
+    addMutationObserver(){
+        const _mut = new MutationObserver(() => {
+            document.querySelectorAll('.categoryGroup').forEach(_ => {
+                const elm = _.lastElementChild
+                if(elm.offsetHeight == 0) return
+                elm.style.removeProperty('height')
+                const _height = elm.offsetHeight
+                elm.style.height = _height + 'px'
+            })
+        })
+        _mut.observe(document.querySelector('main'), { childList: true, subtree: true })
     }
     
     changeState(elm, isOnLoad){
@@ -94,30 +111,31 @@ class collapseSections{
 
     injectCSS(){
         bwrd.injectStyle(`
-        .sectionTitle{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .gridWrapper{
-            transition: 167ms cubic-bezier(0,0,0,1);
-        }
-        .sectionArrow{
-            transition: .085s cubic-bezier(0,0,0,1) opacity, .1s cubic-bezier(0,0,0,1) transform;
-        }
-        .arrowCollapsed{
-            transform: rotate(-90deg);
-        }
-        .sectionArrow:hover{
-            opacity: .5;
-        }
-        .collapsed-half{
-            transform: scale(.98)!important;
-            opacity: 0!important
-        }
-        .collapsed{
-            height: 0!important;
-        }`)
+            .sectionTitle{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .gridWrapper{
+                transition: 167ms cubic-bezier(0,0,0,1);
+            }
+            .sectionArrow{
+                transition: .085s cubic-bezier(0,0,0,1) opacity, .1s cubic-bezier(0,0,0,1) transform;
+            }
+            .arrowCollapsed{
+                transform: rotate(-90deg);
+            }
+            .sectionArrow:hover{
+                opacity: .5;
+            }
+            .collapsed-half{
+                transform: scale(.98)!important;
+                opacity: 0!important
+            }
+            .collapsed{
+                height: 0!important;
+            }`
+        )
     }
 }
 
