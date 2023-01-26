@@ -140,4 +140,4 @@ class collapseSections {
 }
 
 new collapseSections().load()
-bwrd.showChangelog('12/23/2022', ['Restructured & optimized code', 'Remade animations'])
+bwrd.showChangelog('12/23/2022', ['Fixed a bug where threads would get cut out of container'])
