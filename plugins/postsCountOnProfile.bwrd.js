@@ -1,6 +1,6 @@
 /*
     @name Posts Count on Profile Page
-    @version 1.1.0
+    @version 1.1.1
     @description Displays a posts & threads count on profiles.
     @author david77
     @source https://raw.githubusercontent.com/davve77/BetterWRD-Plugins/main/plugins/postsCountOnProfile.bwrd.js
@@ -39,7 +39,6 @@
     statsDiv.innerHTML = `<div class="stats-loading"/>`
 
     cloneSc.appendChild(statsDiv)
-    sideCards.prepend(document.createElement('br'))
     sideCards.prepend(cloneSc)
 
     // Find post to fetch
@@ -121,4 +120,4 @@
     setStatCount()
 })();
 
-bwrd.showChangelog('1/26/22', ['More consistency—no more random errors', 'Rewrote code'])
+bwrd.showChangelog('2/19/22', ['Removed additional gap between sidecards', 'More consistency—no more random errors'])
